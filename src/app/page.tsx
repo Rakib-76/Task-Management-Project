@@ -1,50 +1,14 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TaskList from '@/components/TaskList';
 import TaskForm from '@/components/TaskForm';
 import ConfirmDialog from '@/components/ConfirmDialog';
-import { createTaskId } from '@/utils/taskUtils';
-
-// Initial Mock Data
-const INITIAL_TASKS = [
-  {
-    id: createTaskId(),
-    title: 'Initialize Next.js project',
-    description: 'Set up the Next.js 13+ App Router project with Tailwind CSS and TypeScript configuration.',
-    status: 'Done',
-    priority: 'High',
-    dueDate: '2026-08-15',
-  },
-  {
-    id: createTaskId(),
-    title: 'Design Task Board UI',
-    description: 'Create professional, responsive task cards and layout components. Ensure empty states and filters look polished without adding actual logic yet.',
-    status: 'In Progress',
-    priority: 'High',
-    dueDate: '2026-08-16',
-  },
-  {
-    id: createTaskId(),
-    title: 'Implement LocalStorage logic',
-    description: 'Add state management using React hooks to persist tasks to the browser local storage so they survive page refreshes.',
-    status: 'To Do',
-    priority: 'Medium',
-    dueDate: '2026-08-18',
-  },
-  {
-    id: createTaskId(),
-    title: 'Refactor and Write Documentation',
-    description: 'Explain the component hierarchy and choices made during development for the technical interview review.',
-    status: 'To Do',
-    priority: 'Low',
-    dueDate: '2026-08-20',
-  }
-];
 
 export default function Home() {
-  const [tasks, setTasks] = useState(INITIAL_TASKS);
-
+  const [tasks, setTasks] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  
   // Search and Filter State
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
@@ -57,6 +21,31 @@ export default function Home() {
   // Confirm Dialog State
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
+
+  // Load tasks from localStorage on initial mount
+  useEffect(() => {
+    try {
+      const storedTasks = localStorage.getItem('task-board-tasks');
+      if (storedTasks) {
+        setTasks(JSON.parse(storedTasks));
+      }
+    } catch (error) {
+      console.error('Failed to parse tasks from localStorage:', error);
+      setTasks([]);
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Save tasks to localStorage whenever they change
+  useEffect(() => {
+    if (isLoaded) {
+      try {
+        localStorage.setItem('task-board-tasks', JSON.stringify(tasks));
+      } catch (error) {
+        console.error('Failed to save tasks to localStorage:', error);
+      }
+    }
+  }, [tasks, isLoaded]);
 
   // Derived state filter for rendering
   const filteredTasks = tasks.filter((task) => {
@@ -100,6 +89,11 @@ export default function Home() {
     setIsConfirmOpen(false);
     setTaskToDelete(null);
   };
+
+  // Optional: Prevent flashing of empty state on initial load by rendering nothing until loaded
+  if (!isLoaded) {
+    return null; 
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full relative">
