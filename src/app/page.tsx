@@ -1,43 +1,87 @@
+import React from 'react';
+import TaskList from '@/components/TaskList';
+import { Task } from '@/types/task';
+
+// Mock data for visual development only
+const MOCK_TASKS: Task[] = [
+  {
+    id: '1',
+    title: 'Initialize Next.js project',
+    description: 'Set up the Next.js 13+ App Router project with Tailwind CSS and TypeScript configuration.',
+    status: 'Done',
+    priority: 'High',
+    dueDate: '2026-08-15',
+  },
+  {
+    id: '2',
+    title: 'Design Task Board UI',
+    description: 'Create professional, responsive task cards and layout components. Ensure empty states and filters look polished without adding actual logic yet.',
+    status: 'In Progress',
+    priority: 'High',
+    dueDate: '2026-08-16',
+  },
+  {
+    id: '3',
+    title: 'Implement LocalStorage logic',
+    description: 'Add state management using React hooks to persist tasks to the browser local storage so they survive page refreshes.',
+    status: 'To Do',
+    priority: 'Medium',
+    dueDate: '2026-08-18',
+  },
+  {
+    id: '4',
+    title: 'Refactor and Write Documentation',
+    description: 'Explain the component hierarchy and choices made during development for the technical interview review.',
+    status: 'To Do',
+    priority: 'Low',
+    dueDate: '2026-08-20',
+  }
+];
+
 export default function Home() {
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h2 className="text-xl font-semibold text-gray-800">Your Tasks</h2>
-        
-        {/* Placeholder for future "Create Task" button */}
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors">
-          Add New Task
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+      {/* Header Section */}
+      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Task Board</h1>
+          <p className="text-gray-500 mt-1">Manage your tasks simply and efficiently</p>
+        </div>
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-md font-medium transition-colors shadow-sm whitespace-nowrap">
+          Create Task
         </button>
-      </div>
+      </header>
 
-      {/* Placeholders for future Filter and Search components */}
-      <div className="flex flex-col sm:flex-row gap-4 bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-        <div className="flex-1">
+      {/* Search and Filter Section */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-8 bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+        <div className="flex-1 relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
           <input 
             type="text" 
-            placeholder="Search tasks..." 
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            disabled
+            placeholder="Search tasks by title..." 
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-shadow"
           />
         </div>
         <div className="w-full sm:w-48">
           <select 
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-            disabled
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900 cursor-pointer transition-shadow"
           >
-            <option>All Statuses</option>
-            <option>To Do</option>
-            <option>In Progress</option>
-            <option>Done</option>
+            <option value="All">All Statuses</option>
+            <option value="To Do">To Do</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Done">Done</option>
           </select>
         </div>
       </div>
 
-      {/* Placeholder for Task List */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8 text-center text-gray-500">
-        <p>No tasks yet. Create one to get started!</p>
-        <p className="text-sm mt-2">(Task functionality will be implemented in the next step)</p>
-      </div>
+      {/* Task List Section */}
+      <main>
+        <TaskList tasks={MOCK_TASKS} />
+      </main>
     </div>
   );
 }
