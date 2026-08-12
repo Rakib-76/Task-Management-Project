@@ -1,13 +1,8 @@
 import React from 'react';
-import { Task } from '@/types/task';
 import TaskCard from './TaskCard';
 import EmptyState from './EmptyState';
 
-interface TaskListProps {
-  tasks: Task[];
-}
-
-export default function TaskList({ tasks }: TaskListProps) {
+export default function TaskList({ tasks }: { tasks: any[] }) {
   if (tasks.length === 0) {
     return (
       <EmptyState 
@@ -19,7 +14,7 @@ export default function TaskList({ tasks }: TaskListProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {tasks.map((task) => (
+      {tasks.map((task: any) => (
         <TaskCard key={task.id} task={task} />
       ))}
     </div>

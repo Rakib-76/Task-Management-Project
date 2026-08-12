@@ -1,11 +1,11 @@
 import React from 'react';
 import TaskList from '@/components/TaskList';
-import { Task } from '@/types/task';
+import { createTaskId } from '@/utils/taskUtils';
 
 // Mock data for visual development only
-const MOCK_TASKS: Task[] = [
+const MOCK_TASKS = [
   {
-    id: '1',
+    id: createTaskId(),
     title: 'Initialize Next.js project',
     description: 'Set up the Next.js 13+ App Router project with Tailwind CSS and TypeScript configuration.',
     status: 'Done',
@@ -13,7 +13,7 @@ const MOCK_TASKS: Task[] = [
     dueDate: '2026-08-15',
   },
   {
-    id: '2',
+    id: createTaskId(),
     title: 'Design Task Board UI',
     description: 'Create professional, responsive task cards and layout components. Ensure empty states and filters look polished without adding actual logic yet.',
     status: 'In Progress',
@@ -21,7 +21,7 @@ const MOCK_TASKS: Task[] = [
     dueDate: '2026-08-16',
   },
   {
-    id: '3',
+    id: createTaskId(),
     title: 'Implement LocalStorage logic',
     description: 'Add state management using React hooks to persist tasks to the browser local storage so they survive page refreshes.',
     status: 'To Do',
@@ -29,7 +29,7 @@ const MOCK_TASKS: Task[] = [
     dueDate: '2026-08-18',
   },
   {
-    id: '4',
+    id: createTaskId(),
     title: 'Refactor and Write Documentation',
     description: 'Explain the component hierarchy and choices made during development for the technical interview review.',
     status: 'To Do',
