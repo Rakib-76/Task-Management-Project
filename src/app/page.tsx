@@ -44,7 +44,7 @@ const INITIAL_TASKS = [
 
 export default function Home() {
   const [tasks, setTasks] = useState(INITIAL_TASKS);
-  
+
   // Search and Filter State
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
@@ -58,7 +58,7 @@ export default function Home() {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
 
-  // Derived state for rendering
+  // Derived state filter for rendering
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = statusFilter === 'All' || task.status === statusFilter;
@@ -67,7 +67,7 @@ export default function Home() {
 
   const handleFormSubmit = (taskData) => {
     if (isEditing) {
-      setTasks((prevTasks) => 
+      setTasks((prevTasks) =>
         prevTasks.map((t) => (t.id === taskData.id ? taskData : t))
       );
     } else {
@@ -108,7 +108,7 @@ export default function Home() {
           <h1 className="text-3xl font-bold text-gray-900">Task Board</h1>
           <p className="text-gray-500 mt-1">Manage your tasks simply and efficiently</p>
         </div>
-        <button 
+        <button
           onClick={handleCreateClick}
           className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-md font-medium transition-colors shadow-sm whitespace-nowrap"
         >
@@ -123,16 +123,16 @@ export default function Home() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search tasks by title..." 
+            placeholder="Search tasks by title..."
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400 transition-shadow"
           />
         </div>
         <div className="w-full sm:w-48">
-          <select 
+          <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900 cursor-pointer transition-shadow"
@@ -146,9 +146,9 @@ export default function Home() {
       </div>
 
       <main>
-        <TaskList 
-          tasks={filteredTasks} 
-          onEdit={handleEditClick} 
+        <TaskList
+          tasks={filteredTasks}
+          onEdit={handleEditClick}
           onDelete={handleDeleteClick}
         />
       </main>
@@ -156,7 +156,7 @@ export default function Home() {
       {isFormOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
           <div className="w-full max-w-2xl my-8">
-            <TaskForm 
+            <TaskForm
               initialTask={selectedTask}
               onSubmit={handleFormSubmit}
               onCancel={() => setIsFormOpen(false)}
@@ -165,7 +165,7 @@ export default function Home() {
         </div>
       )}
 
-      <ConfirmDialog 
+      <ConfirmDialog
         isOpen={isConfirmOpen}
         title="Delete Task"
         message="Are you sure you want to delete this task? This action cannot be undone."
