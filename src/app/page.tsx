@@ -1,9 +1,12 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from 'react';
 import TaskList from '@/components/TaskList';
+import TaskForm from '@/components/TaskForm';
 import { createTaskId } from '@/utils/taskUtils';
 
-// Mock data for visual development only
-const MOCK_TASKS = [
+// Initial Mock Data
+const INITIAL_TASKS = [
   {
     id: createTaskId(),
     title: 'Initialize Next.js project',
@@ -39,15 +42,26 @@ const MOCK_TASKS = [
 ];
 
 export default function Home() {
+  const [tasks, setTasks] = useState(INITIAL_TASKS);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  const handleCreateTask = (newTask) => {
+    setTasks((prevTasks) => [newTask, ...prevTasks]);
+    setIsFormOpen(false);
+  };
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full relative">
       {/* Header Section */}
       <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Task Board</h1>
           <p className="text-gray-500 mt-1">Manage your tasks simply and efficiently</p>
         </div>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-md font-medium transition-colors shadow-sm whitespace-nowrap">
+        <button 
+          onClick={() => setIsFormOpen(true)}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-md font-medium transition-colors shadow-sm whitespace-nowrap"
+        >
           Create Task
         </button>
       </header>
@@ -80,8 +94,20 @@ export default function Home() {
 
       {/* Task List Section */}
       <main>
-        <TaskList tasks={MOCK_TASKS} />
+        <TaskList tasks={tasks} />
       </main>
+
+      {/* Modal Overlay for Task Form */}
+      {isFormOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <div className="w-full max-w-2xl my-8">
+            <TaskForm 
+              onSubmit={handleCreateTask}
+              onCancel={() => setIsFormOpen(false)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
