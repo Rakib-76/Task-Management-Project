@@ -32,7 +32,7 @@ export default function TaskForm({ initialTask, onSubmit, onCancel }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = validate();
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -55,7 +55,7 @@ export default function TaskForm({ initialTask, onSubmit, onCancel }) {
       <h2 className="text-xl font-bold text-gray-900 mb-6">
         {initialTask ? 'Edit Task' : 'Create New Task'}
       </h2>
-      
+
       <div className="space-y-4">
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
@@ -157,3 +157,5 @@ export default function TaskForm({ initialTask, onSubmit, onCancel }) {
     </form>
   );
 }
+
+

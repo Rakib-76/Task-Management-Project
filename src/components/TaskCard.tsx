@@ -1,7 +1,7 @@
 import React from 'react';
 import { getStatusClass, getPriorityClass } from '@/utils/taskUtils';
 
-export default function TaskCard({ task }: { task: any }) {
+export default function TaskCard({ task, onEdit, onDelete }: { task: any, onEdit: (task: any) => void, onDelete: (task: any) => void }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition-shadow flex flex-col h-full">
       <div className="flex justify-between items-start mb-3 gap-2">
@@ -27,10 +27,16 @@ export default function TaskCard({ task }: { task: any }) {
       </div>
       
       <div className="flex justify-end gap-2 mt-auto pt-4 border-t border-gray-100">
-        <button className="text-sm px-3 py-1.5 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors font-medium">
+        <button 
+          onClick={() => onEdit(task)}
+          className="text-sm px-3 py-1.5 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors font-medium"
+        >
           Edit
         </button>
-        <button className="text-sm px-3 py-1.5 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors font-medium">
+        <button 
+          onClick={() => onDelete(task)}
+          className="text-sm px-3 py-1.5 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors font-medium"
+        >
           Delete
         </button>
       </div>

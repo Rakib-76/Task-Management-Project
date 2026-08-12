@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import TaskList from '@/components/TaskList';
 import TaskForm from '@/components/TaskForm';
+import ConfirmDialog from '@/components/ConfirmDialog';
 import { createTaskId } from '@/utils/taskUtils';
 
 // Initial Mock Data
@@ -43,11 +44,52 @@ const INITIAL_TASKS = [
 
 export default function Home() {
   const [tasks, setTasks] = useState(INITIAL_TASKS);
+  
+  // Form Modal State
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
 
-  const handleCreateTask = (newTask) => {
-    setTasks((prevTasks) => [newTask, ...prevTasks]);
+  // Confirm Dialog State
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
+
+  const handleFormSubmit = (taskData) => {
+    if (isEditing) {
+      // Update existing task
+      setTasks((prevTasks) => 
+        prevTasks.map((t) => (t.id === taskData.id ? taskData : t))
+      );
+    } else {
+      // Create new task
+      setTasks((prevTasks) => [taskData, ...prevTasks]);
+    }
     setIsFormOpen(false);
+  };
+
+  const handleEditClick = (task) => {
+    setSelectedTask(task);
+    setIsEditing(true);
+    setIsFormOpen(true);
+  };
+
+  const handleCreateClick = () => {
+    setSelectedTask(null);
+    setIsEditing(false);
+    setIsFormOpen(true);
+  };
+
+  const handleDeleteClick = (task) => {
+    setTaskToDelete(task);
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (taskToDelete) {
+      setTasks((prevTasks) => prevTasks.filter((t) => t.id !== taskToDelete.id));
+    }
+    setIsConfirmOpen(false);
+    setTaskToDelete(null);
   };
 
   return (
@@ -59,7 +101,7 @@ export default function Home() {
           <p className="text-gray-500 mt-1">Manage your tasks simply and efficiently</p>
         </div>
         <button 
-          onClick={() => setIsFormOpen(true)}
+          onClick={handleCreateClick}
           className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-md font-medium transition-colors shadow-sm whitespace-nowrap"
         >
           Create Task
@@ -94,7 +136,11 @@ export default function Home() {
 
       {/* Task List Section */}
       <main>
-        <TaskList tasks={tasks} />
+        <TaskList 
+          tasks={tasks} 
+          onEdit={handleEditClick} 
+          onDelete={handleDeleteClick}
+        />
       </main>
 
       {/* Modal Overlay for Task Form */}
@@ -102,12 +148,22 @@ export default function Home() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 overflow-y-auto">
           <div className="w-full max-w-2xl my-8">
             <TaskForm 
-              onSubmit={handleCreateTask}
+              initialTask={selectedTask}
+              onSubmit={handleFormSubmit}
               onCancel={() => setIsFormOpen(false)}
             />
           </div>
         </div>
       )}
+
+      {/* Confirmation Dialog for Deletion */}
+      <ConfirmDialog 
+        isOpen={isConfirmOpen}
+        title="Delete Task"
+        message="Are you sure you want to delete this task? This action cannot be undone."
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setIsConfirmOpen(false)}
+      />
     </div>
   );
 }
