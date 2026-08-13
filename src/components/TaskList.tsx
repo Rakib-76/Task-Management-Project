@@ -1,18 +1,21 @@
 import React from 'react';
 import TaskCard from './TaskCard';
 import EmptyState from './EmptyState';
+import { Task } from '@/types';
+
+interface TaskListProps {
+  tasks: Task[];
+  totalTasksCount: number;
+  onEdit: (task: Task) => void;
+  onDelete: (task: Task) => void;
+}
 
 export default function TaskList({ 
   tasks, 
   totalTasksCount,
   onEdit, 
   onDelete 
-}: { 
-  tasks: any[], 
-  totalTasksCount: number,
-  onEdit: (task: any) => void, 
-  onDelete: (task: any) => void 
-}) {
+}: TaskListProps) {
   if (totalTasksCount === 0) {
     return (
       <EmptyState 
@@ -33,7 +36,7 @@ export default function TaskList({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {tasks.map((task: any) => (
+      {tasks.map((task: Task) => (
         <TaskCard key={task.id} task={task} onEdit={onEdit} onDelete={onDelete} />
       ))}
     </div>

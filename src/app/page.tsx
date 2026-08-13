@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react';
 import TaskList from '@/components/TaskList';
 import TaskForm from '@/components/TaskForm';
 import ConfirmDialog from '@/components/ConfirmDialog';
+import { Task } from '@/types';
 
 export default function Home() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Search and Filter State
@@ -16,11 +17,11 @@ export default function Home() {
   // Form Modal State
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   // Confirm Dialog State
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [taskToDelete, setTaskToDelete] = useState(null);
+  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
 
   // Load tasks from localStorage on initial mount
   useEffect(() => {
@@ -54,7 +55,7 @@ export default function Home() {
     return matchesSearch && matchesStatus;
   });
 
-  const handleFormSubmit = (taskData) => {
+  const handleFormSubmit = (taskData: Task) => {
     if (isEditing) {
       setTasks((prevTasks) =>
         prevTasks.map((t) => (t.id === taskData.id ? taskData : t))
@@ -65,7 +66,7 @@ export default function Home() {
     setIsFormOpen(false);
   };
 
-  const handleEditClick = (task) => {
+  const handleEditClick = (task: Task) => {
     setSelectedTask(task);
     setIsEditing(true);
     setIsFormOpen(true);
@@ -77,7 +78,7 @@ export default function Home() {
     setIsFormOpen(true);
   };
 
-  const handleDeleteClick = (task) => {
+  const handleDeleteClick = (task: Task) => {
     setTaskToDelete(task);
     setIsConfirmOpen(true);
   };

@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { createTaskId } from '@/utils/taskUtils';
+import { Task } from '@/types';
 
-export default function TaskForm({ initialTask, onSubmit, onCancel }) {
+interface TaskFormProps {
+  initialTask: Task | null;
+  onSubmit: (task: Task) => void;
+  onCancel: () => void;
+}
+
+export default function TaskForm({ initialTask, onSubmit, onCancel }: TaskFormProps) {
   const [formData, setFormData] = useState({
     title: initialTask?.title || '',
     description: initialTask?.description || '',
@@ -10,9 +17,9 @@ export default function TaskForm({ initialTask, onSubmit, onCancel }) {
     dueDate: initialTask?.dueDate || '',
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     // Clear validation error when user types
@@ -22,14 +29,14 @@ export default function TaskForm({ initialTask, onSubmit, onCancel }) {
   };
 
   const validate = () => {
-    const newErrors = {};
+    const newErrors: Record<string, string> = {};
     if (!formData.title || formData.title.trim().length < 3) {
       newErrors.title = 'Title is required and must be at least 3 characters.';
     }
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors = validate();
 

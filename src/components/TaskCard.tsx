@@ -1,7 +1,14 @@
 import React from 'react';
 import { getStatusClass, getPriorityClass } from '@/utils/taskUtils';
+import { Task } from '@/types';
 
-export default function TaskCard({ task, onEdit, onDelete }: { task: any, onEdit: (task: any) => void, onDelete: (task: any) => void }) {
+interface TaskCardProps {
+  task: Task;
+  onEdit: (task: Task) => void;
+  onDelete: (task: Task) => void;
+}
+
+export default function TaskCard({ task, onEdit, onDelete }: TaskCardProps) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition-shadow flex flex-col h-full">
       <div className="flex justify-between items-start mb-3 gap-2">
