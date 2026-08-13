@@ -68,10 +68,17 @@ export default function TaskForm({ initialTask, onSubmit, onCancel }) {
             name="title"
             value={formData.title}
             onChange={handleChange}
-            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
+            className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow bg-white text-gray-900 ${errors.title ? 'border-red-500 bg-red-50 text-red-900' : 'border-gray-300'}`}
             placeholder="e.g., Update documentation"
           />
-          {errors.title && <p className="mt-1 text-sm text-red-500">{errors.title}</p>}
+          {errors.title && (
+            <div className="mt-2 flex items-start gap-2 text-sm text-red-600 bg-red-50 p-2.5 rounded-md border border-red-100">
+              <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="font-medium">{errors.title}</p>
+            </div>
+          )}
         </div>
 
         <div>
@@ -84,7 +91,7 @@ export default function TaskForm({ initialTask, onSubmit, onCancel }) {
             value={formData.description}
             onChange={handleChange}
             rows={3}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow bg-white text-gray-900"
             placeholder="Optional details about this task..."
           />
         </div>
@@ -99,7 +106,7 @@ export default function TaskForm({ initialTask, onSubmit, onCancel }) {
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
             >
               <option value="To Do">To Do</option>
               <option value="In Progress">In Progress</option>
@@ -116,7 +123,7 @@ export default function TaskForm({ initialTask, onSubmit, onCancel }) {
               name="priority"
               value={formData.priority}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
             >
               <option value="Low">Low</option>
               <option value="Medium">Medium</option>
@@ -135,7 +142,7 @@ export default function TaskForm({ initialTask, onSubmit, onCancel }) {
             name="dueDate"
             value={formData.dueDate}
             onChange={handleChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow text-gray-900"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow bg-white text-gray-900"
           />
         </div>
       </div>
